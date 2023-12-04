@@ -67,12 +67,8 @@ public class MTSTest extends WebDriver {
         WebElement emailField = driver.findElement(By.id("connection-email"));
 
         phoneField.clear();
-        sumField.clear();
-        emailField.clear();
 
         phoneField.sendKeys("297777777");
-        sumField.sendKeys("100");
-        emailField.sendKeys("test@example.com");
 
         WebElement continueButton = driver.findElement(By.cssSelector("#pay-connection button[type='submit']"));
         executor.executeScript("arguments[0].click();", continueButton);
