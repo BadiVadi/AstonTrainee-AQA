@@ -11,21 +11,19 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.interactions.Actions;
 
-public class MTSTest extends WebDriver {
+import static org.example.DriverHelper.driver;
+
+public class MTSTest extends BaseTest {
+
+    MTSPage mtsPage = new MTSPage();
 
     @Test
     public void testOnlineRechargeBlock() {
-        driver.get("https://www.mts.by/");
-        WebElement onlineRechargeHeader = driver.findElement(By.cssSelector("section.pay h2"));
-
-        String headerText = onlineRechargeHeader.getText();
-        System.out.println("Заголовок: " + headerText);
+        mtsPage.printHeader();
     }
 
     @Test
     public void testCheckLogos() {
-        driver.get("https://www.mts.by/");
-
         WebElement logosContainer = new WebDriverWait(driver, 10)
                 .until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".pay__partners ul")));
 
@@ -37,41 +35,38 @@ public class MTSTest extends WebDriver {
             WebElement logo = logos.get(i);
             String actualAltText = logo.getAttribute("alt");
             String expectedAltText = expectedAltTexts[i];
-
+            System.out.println("Ожидаемый результат:" + expectedAltText + "\n" + "Реальный результат: " + actualAltText);
         }
     }
 
     @Test
     public void testMoreInformationButton() {
-        driver.get("https://www.mts.by/");
-        WebElement linkByHref = driver.findElement(By.xpath("//a[@href='/help/poryadok-oplaty-i-bezopasnost-internet-platezhey/']"));
-
+        WebElement linkByHref = driver.findElement(By.xpath("//a[contains(text(), 'о сервисе')]"));
+        String hrefText = linkByHref.getText();
         Actions actions = new Actions(driver);
         actions.moveToElement(linkByHref).click().perform();
+        System.out.println("Элемент с текстом: " + hrefText + " найден");
     }
 
     @Test
     public void testFillFieldsAndCheckContinueButton() {
-        driver.get("https://www.mts.by/");
 
-        JavascriptExecutor executor = (JavascriptExecutor) driver;
+        JavascriptExecutor executor = driver;
         WebElement dropdown = driver.findElement(By.id("pay"));
         executor.executeScript("arguments[0].click();", dropdown);
 
         WebElement option = driver.findElement(By.xpath("//option[text()='Услуги связи']"));
         option.click();
 
-
         WebElement phoneField = driver.findElement(By.id("connection-phone"));
-        WebElement sumField = driver.findElement(By.id("connection-sum"));
-        WebElement emailField = driver.findElement(By.id("connection-email"));
+//        WebElement sumField = driver.findElement(By.id("connection-sum"));
+//        WebElement emailField = driver.findElement(By.id("connection-email"));
 
         phoneField.clear();
 
         phoneField.sendKeys("297777777");
 
-        WebElement continueButton = driver.findElement(By.cssSelector("#pay-connection button[type='submit']"));
-        executor.executeScript("arguments[0].click();", continueButton);
-
+        WebElement continueButton = driver.findElement(By.xpath("//form[@id='pay-connection']//button[text() = 'Продолжить'][1]"));
+        continueButton.click();
     }
 }
