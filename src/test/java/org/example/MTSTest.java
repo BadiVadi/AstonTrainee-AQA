@@ -31,6 +31,7 @@ public class MTSTest extends BaseTest {
     @Test
     public void testCheckHomeInternet() throws InterruptedException {
         WebElement dropdown = driver.findElement(By.xpath("//button[@class = 'select__header']"));
+        Thread.sleep(5000);
         dropdown.click();
 
         ExpectedConditions.visibilityOf(dropdown);
