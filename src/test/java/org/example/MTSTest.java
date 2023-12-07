@@ -1,72 +1,53 @@
 package org.example;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-
-import java.util.List;
-
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.interactions.Actions;
 
 import static org.example.DriverHelper.driver;
 
 public class MTSTest extends BaseTest {
 
-    MTSPage mtsPage = new MTSPage();
-
     @Test
-    public void testOnlineRechargeBlock() {
-        mtsPage.printHeader();
-    }
+    public void testCheckCommunicationServicesField() {
+        WebElement connectionForm = driver.findElement(By.id("pay-connection"));
 
-    @Test
-    public void testCheckLogos() {
-        WebElement logosContainer = new WebDriverWait(driver, 10)
-                .until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".pay__partners ul")));
-
-        List<WebElement> logos = logosContainer.findElements(By.tagName("img"));
-
-        String[] expectedAltTexts = {"Visa", "Verified By Visa", "MasterCard", "MasterCard Secure Code", "Белкарт", "МИР"};
-
-        for (int i = 0; i < logos.size(); i++) {
-            WebElement logo = logos.get(i);
-            String actualAltText = logo.getAttribute("alt");
-            String expectedAltText = expectedAltTexts[i];
-            System.out.println("Ожидаемый результат:" + expectedAltText + "\n" + "Реальный результат: " + actualAltText);
-        }
-    }
-
-    @Test
-    public void testMoreInformationButton() {
-        WebElement linkByHref = driver.findElement(By.xpath("//a[contains(text(), 'о сервисе')]"));
-        String hrefText = linkByHref.getText();
-        Actions actions = new Actions(driver);
-        actions.moveToElement(linkByHref).click().perform();
-        System.out.println("Элемент с текстом: " + hrefText + " найден");
-    }
-
-    @Test
-    public void testFillFieldsAndCheckContinueButton() {
-
-        JavascriptExecutor executor = driver;
-        WebElement dropdown = driver.findElement(By.id("pay"));
-        executor.executeScript("arguments[0].click();", dropdown);
-
-        WebElement option = driver.findElement(By.xpath("//option[text()='Услуги связи']"));
-        option.click();
-
-        WebElement phoneField = driver.findElement(By.id("connection-phone"));
-//        WebElement sumField = driver.findElement(By.id("connection-sum"));
-//        WebElement emailField = driver.findElement(By.id("connection-email"));
-
+        WebElement phoneField = connectionForm.findElement(By.id("connection-phone"));
         phoneField.clear();
+        phoneField.sendKeys("297777777"); // проверка, что данные отображаются корректно, по аналогии можно сделать и с другими
+        System.out.println("Значение номера телефона: " + phoneField.getAttribute("value"));
 
+        WebElement sumField = connectionForm.findElement(By.id("connection-sum"));
+        Assertions.assertTrue(sumField.getAttribute("value").isEmpty());
+        System.out.println("Значение суммы: " + sumField.getAttribute("value"));
+
+        WebElement emailField = connectionForm.findElement(By.id("connection-email"));
+        Assertions.assertTrue(emailField.getAttribute("value").isEmpty());
+        System.out.println("Значение e-mail: " + emailField.getAttribute("value"));
+    }
+
+    @Test
+    public void testCheckHomeInternet() throws InterruptedException {
+        WebElement dropdown = driver.findElement(By.xpath("//button[@class = 'select__header']"));
+        dropdown.click();
+
+        ExpectedConditions.visibilityOf(dropdown);
+        WebElement homeInternetForm = driver.findElement(By.xpath("//p[text() = 'Домашний интернет']"));
+        homeInternetForm.click();
+
+        WebElement phoneField = homeInternetForm.findElement(By.xpath("//input[@id = 'internet-phone']"));
+        phoneField.clear();
         phoneField.sendKeys("297777777");
+        System.out.println("Значение номера телефона: " + phoneField.getAttribute("value"));
 
-        WebElement continueButton = driver.findElement(By.xpath("//form[@id='pay-connection']//button[text() = 'Продолжить'][1]"));
-        continueButton.click();
+        WebElement sumField = homeInternetForm.findElement(By.xpath("//input[@id = 'internet-sum']"));
+        Assertions.assertTrue(sumField.getAttribute("value").isEmpty());
+        System.out.println("Значение суммы: " + sumField.getText());
+
+        WebElement emailField = homeInternetForm.findElement(By.xpath("//input[@id = 'internet-email']"));
+        Assertions.assertTrue(emailField.getAttribute("value").isEmpty());
+        System.out.println("Значение e-mail: " + emailField.getText());
     }
 }
