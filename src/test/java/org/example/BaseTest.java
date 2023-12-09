@@ -15,9 +15,9 @@ public class BaseTest {
         openUrl(MTS_URL);
     }
 
-//   @AfterAll
-//    public static void close() {
-//        System.out.println("Test Close");
-//        driver.quit();
-//    }
+   @AfterAll
+    public static void close() {
+        System.out.println("Test Close");
+        driver.quit();
+    }
 }

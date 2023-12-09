@@ -9,7 +9,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static org.example.DriverHelper.driver;
-import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 
 public class MTSTest extends BaseTest {
 
@@ -22,7 +21,9 @@ public class MTSTest extends BaseTest {
         WebElement connectionForm = driver.findElement(By.id("pay-connection"));
 
         WebElement phoneField = connectionForm.findElement(By.id("connection-phone"));
-        phoneField.sendKeys("297777777"); // проверка, что данные отображаются корректно, по аналогии можно сделать и с другими
+
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.elementToBeClickable(phoneField)).sendKeys("297777777"); // проверка, что данные отображаются корректно, по аналогии можно сделать и с другими
         System.out.println("Значение номера телефона: " + phoneField.getAttribute("value"));
 
         WebElement sumField = connectionForm.findElement(By.id("connection-sum"));
@@ -48,7 +49,9 @@ public class MTSTest extends BaseTest {
         homeInternetForm.click();
 
         WebElement phoneField = homeInternetForm.findElement(By.xpath("//input[@id = 'internet-phone']"));
-        phoneField.sendKeys("29777777");
+
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.elementToBeClickable(phoneField)).sendKeys("29777777");
         System.out.println("Значение номера телефона: " + phoneField.getAttribute("value"));
 
         WebElement sumField = homeInternetForm.findElement(By.xpath("//input[@id = 'internet-sum']"));
@@ -75,7 +78,8 @@ public class MTSTest extends BaseTest {
 
         WebElement scoreField = instalments.findElement(By.xpath("//input[@id ='score-instalment']"));
         ExpectedConditions.visibilityOf(scoreField);
-        scoreField.sendKeys("442543");
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.elementToBeClickable(scoreField)).sendKeys("442543");
         System.out.println("Значение номера счета на 44: " + scoreField.getAttribute("value"));
 
         WebElement sumField = instalments.findElement(By.xpath("//input[@id = 'instalment-sum']"));
@@ -98,7 +102,9 @@ public class MTSTest extends BaseTest {
 
         ExpectedConditions.visibilityOf(dropdown);
         WebElement arrear = driver.findElement(By.xpath("//p[text() = 'Задолженность']"));
-        arrear.click();
+
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.elementToBeClickable(arrear)).click();
 
         WebElement scoreField = arrear.findElement(By.xpath("//input[@id = 'score-arrears']"));
         ExpectedConditions.visibilityOf(scoreField);
@@ -130,10 +136,6 @@ public class MTSTest extends BaseTest {
         WebElement phoneField = driver.findElement(By.id("connection-phone"));
         WebElement sumField = driver.findElement(By.id("connection-sum"));
         WebElement emailField = driver.findElement(By.id("connection-email"));
-
-        phoneField.clear();
-        sumField.clear();
-        emailField.clear();
 
         phoneField.sendKeys("297777777");
         sumField.sendKeys("10");
