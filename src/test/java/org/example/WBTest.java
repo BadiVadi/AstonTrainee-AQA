@@ -55,6 +55,5 @@ public class WBTest extends BaseTest {
 
         WebElement goToBasket = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[@class ='navbar-pc__icon navbar-pc__icon--basket']")));
         goToBasket.click();
-
     }
 }
