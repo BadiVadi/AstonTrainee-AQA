@@ -7,17 +7,17 @@ import static org.example.DriverHelper.*;
 
 public class BaseTest {
 
-    private static String MTS_URL = "https://www.mts.by/";
+    private static String WB_URL = "https://www.wildberries.ru/";
 
     @BeforeAll
     public static void setUp() {
         getWebDriver();
-        openUrl(MTS_URL);
+        openUrl(WB_URL);
     }
 
-   @AfterAll
-    public static void close() {
-        System.out.println("Test Close");
-        driver.quit();
-    }
+//   @AfterAll
+//    public static void close() {
+//        System.out.println("Test Close");
+//        driver.quit();
+//    }
 }

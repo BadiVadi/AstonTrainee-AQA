@@ -3,6 +3,7 @@ package org.example;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+
 public class DriverHelper {
 
     public static ChromeDriver driver;
@@ -16,7 +17,7 @@ public class DriverHelper {
         return driver;
     }
 
-    protected static void openUrl (String url) {
+    protected static void openUrl(String url) {
         driver.get(url);
     }
 }
