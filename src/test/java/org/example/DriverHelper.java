@@ -20,4 +20,5 @@ public class DriverHelper {
     protected static void openUrl(String url) {
         driver.get(url);
     }
+
 }

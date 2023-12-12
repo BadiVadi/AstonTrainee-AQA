@@ -6,25 +6,19 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
 import static org.example.DriverHelper.driver;
 
 public class WBTest extends BaseTest {
-//    WBPage wbPage = new WBPage();
 
+    //sout заменить на JUnit assertion
     @Test
     public void chooseItemsFromCatalog() {
-        WebDriverWait wait = new WebDriverWait(driver, 10);
 
         // Слип на 5 секунд, чтобы страница загрузилась полнолстью
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        waitPageLoaded();
 
         WebElement item1 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id = 'searchInput']")));
 
@@ -38,11 +32,7 @@ public class WBTest extends BaseTest {
         WebElement addToBasketItem1 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@class= 'btn-main']")));
         addToBasketItem1.click();
 
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        waitPageLoaded();
 
         WebElement item2 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id = 'searchInput']")));
         item2.clear();
@@ -52,7 +42,6 @@ public class WBTest extends BaseTest {
 
         WebElement addToBasketItem2 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@class= 'btn-main']")));
         addToBasketItem2.click();
-
 
         WebElement goToBasket = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class ='order']//a[@class]")));
         goToBasket.click();
