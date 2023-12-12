@@ -145,7 +145,7 @@ public class MTSTest extends BaseTest {
         continueButton.click();
 
         WebDriverWait wait = new WebDriverWait(driver, 10);
-        WebElement creditCard = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("cc-number")));
+        WebElement creditCard = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@class ='app-wrapper__content']//input")));
 
         creditCard.clear();
         creditCard.sendKeys("1234567898765432");
