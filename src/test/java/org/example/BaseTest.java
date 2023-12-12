@@ -25,7 +25,7 @@ public class BaseTest {
         openUrl(WB_URL);
     }
 
-   @AfterAll
+    @AfterAll
     public static void close() {
         System.out.println("Test Close");
         driver.quit();
